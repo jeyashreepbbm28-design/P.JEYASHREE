@@ -1,0 +1,27 @@
+import math
+
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+        # Create a list of numbers to use: [1, 2, 3, ..., n]
+        nums = [str(i) for i in range(1, n + 1)]
+        
+        # LeetCode uses 1-based indexing for k, 
+        # but we need 0-based for math calculations.
+        k -= 1
+        
+        res = []
+        
+        # Calculate permutations one position at a time
+        for i in range(n, 0, -1):
+            # How many permutations exist for the remaining (i-1) positions?
+            # For n=4, if we pick the first digit, there are 3! (6) ways to arrange the rest.
+            fact = math.factorial(i - 1)
+            
+            # Determine the index of the number to pick
+            index = k // fact
+            res.append(nums.pop(index))
+            
+            # Update k for the next position
+            k %= fact
+            
+        return "".join(res)
