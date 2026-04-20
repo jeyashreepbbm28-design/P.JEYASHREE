@@ -1,0 +1,23 @@
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        digit = exponent = dot = False
+        
+        for i, c in enumerate(s):
+            if c.isdigit():
+                digit = True
+            elif c in "+-":
+                if i > 0 and s[i-1] not in "eE":
+                    return False
+            elif c in "eE":
+                if exponent or not digit:
+                    return False
+                exponent = True
+                digit = False  # Reset: must have a digit after the 'e'
+            elif c == ".":
+                if dot or exponent:
+                    return False
+                dot = True
+            else:
+                return False
+        
+        return digit
