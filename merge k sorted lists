@@ -1,0 +1,23 @@
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        # Dummy node to act as the starting point of the merged list
+        dummy = ListNode(0)
+        curr = dummy
+        heap = []
+        
+        # 1. Put the head of each non-empty list into the heap
+        # We include the index 'i' to handle cases where node values are the same
+        for i, l in enumerate(lists):
+            if l:
+                heapq.heappush(heap, (l.val, i, l))
+        
+        # 2. While the heap isn't empty, pop the smallest and add the next node from that list
+        while heap:
+            val, i, node = heapq.heappop(heap)
+            curr.next = node
+            curr = curr.next
+            
+            if node.next:
+                heapq.heappush(heap, (node.next.val, i, node.next))
+                
+        return dummy.next
