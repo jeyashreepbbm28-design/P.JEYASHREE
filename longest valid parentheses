@@ -1,0 +1,22 @@
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        max_len = 0
+        # Initialize stack with -1 to handle the base case for length calculation
+        stack = [-1]
+        
+        for i, char in enumerate(s):
+            if char == '(':
+                # Push the index of the opening bracket
+                stack.append(i)
+            else:
+                # Pop the last opening bracket or the last boundary
+                stack.pop()
+                
+                if not stack:
+                    # If stack is empty, this ')' is a new boundary
+                    stack.append(i)
+                else:
+                    # Current length is (current index - index of the last element in stack)
+                    max_len = max(max_len, i - stack[-1])
+                    
+        return max_len
